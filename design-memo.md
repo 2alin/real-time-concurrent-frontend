@@ -27,19 +27,19 @@ Last update: 25.02.2026
 
 1. Real-time consistency
 
-- Action Cable, unique alarm id, last updated wins, recovery on alarm gap detection
+    - Action Cable, unique alarm id, last updated wins, recovery on alarm gap detection
 
 2. Concurrency (multi-agent edits)
 
-- Broadcast atomic alarm state changes, re-broadcast alarm events, reactive UI to events by other agents
+    - Broadcast atomic alarm state changes, re-broadcast alarm events, reactive UI to events by other agents
 
 3. Performance under high update frequency
 
-- Optimistic UI, reactive UI to only partial state changes, sort new alarms by binary-search insert algorithm
+    - Optimistic UI, reactive UI to only partial state changes, sort new alarms by binary-search insert algorithm
 
 4. Failure handling and reconnect strategies
 
-- Action Cable inbuilt autoconnect, alarm gap detection by sequential event number, partial UI functionality
+    - Action Cable inbuilt autoconnect, alarm gap detection by sequential event number, partial UI functionality
 
 ### Client Server Communication
 
@@ -223,16 +223,16 @@ We should be able to measure the following metrics:
 
 1. Alarm transmission latency
 
-- With `alarm.emitted_at` value provided by the server and a call to `Date.now()` when agent receives the alarm
+    - With `alarm.emitted_at` value provided by the server and a call to `Date.now()` when agent receives the alarm
 
 2. Alarm render latency
 
-- Comparing the time between alarm being received by an agent and the moment the alarm UI element finishes rendering, if it applies as we won't render everything we receive.
+    - Comparing the time between alarm being received by an agent and the moment the alarm UI element finishes rendering, if it applies as we won't render everything we receive.
 
 3. Frequency of alarm gaps per agent
 
-- Value can be accumulated from the gap elements we detect in our gap detection
-- This metric can be used to observe the health of the stream.
+    - Value can be accumulated from the gap elements we detect in our gap detection
+    - This metric can be used to observe the health of the stream.
 
 To keep track of the <1s stack freshness we can observe the alarm transmission and render latency metrics.
 
@@ -242,31 +242,31 @@ All these metrics can stay in the client side and communicated to a telemetry se
 
 1. Client/server communication
 
-- Chosen: Action Cable
-- Upsides: Rails native, low latency, flexibility on channel subscription
-- Downsides: losing broadcasted messages on disconnection, messages order is not guaranteed
-- Alternatives: Server Sent Events (SSE), GraphQL Subscriptions
+    - Chosen: Action Cable
+    - Upsides: Rails native, low latency, flexibility on channel subscription
+    - Downsides: losing broadcasted messages on disconnection, messages order is not guaranteed
+    - Alternatives: Server Sent Events (SSE), GraphQL Subscriptions
 
 2. Gap detection
 
-- Chosen: Server provides a sequential event number per event
-- Upsides: Easy to implement and track from the server and client side.
-- Downsides: There's no guarantee that server will skip numbers in the sequence. Gap reconciliation needs to handle it.
-- Alternatives: Server keeps track of events received per agent
+    - Chosen: Server provides a sequential event number per event
+    - Upsides: Easy to implement and track from the server and client side.
+    - Downsides: There's no guarantee that server will skip numbers in the sequence. Gap reconciliation needs to handle it.
+    - Alternatives: Server keeps track of events received per agent
 
 3. Real time concurrency
 
-- Chosen: Server re-broadcasts atomic state change events from all agents and last updated wins.
-- Upsides: Low latency, collaborative friendly, simple to implement from server side
-- Downsides: Complexity is in the client side to determine which state to keep or ignore.
-- Alternatives: Clients request changes to server and wait until server decides the correct state.
+    - Chosen: Server re-broadcasts atomic state change events from all agents and last updated wins.
+    - Upsides: Low latency, collaborative friendly, simple to implement from server side
+    - Downsides: Complexity is in the client side to determine which state to keep or ignore.
+    - Alternatives: Clients request changes to server and wait until server decides the correct state.
 
 4. Prioritization around "Emergency" alarms
 
-- Chosen: Separate broadcast channels and UI states per alarm stack
-- Upsides: Allows flexibility on user experience and performance
-- Downsides: Possibility of code duplication if not handled properly
-- Alternatives: Adding a priority weight to emergency alarms
+    - Chosen: Separate broadcast channels and UI states per alarm stack
+    - Upsides: Allows flexibility on user experience and performance
+    - Downsides: Possibility of code duplication if not handled properly
+    - Alternatives: Adding a priority weight to emergency alarms
 
 ## Assumptions
 
