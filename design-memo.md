@@ -43,6 +43,8 @@ Last update: 25.02.2026
 
 ### Client Server Communication
 
+![High overview diagram of the Client Server communication](./diagrams/client-server-communication.png)
+
 Make use of Rails' Action Cable as it provides dual communication, low latency, and inbuilt detection of connection issues.
 
 Server should provide three channels, one per Alarm stack (Emergency, Non-Emergency, History). This gives Agents the flexibility to select which stacks to subscribe. It also enables the system to provide partial communication.
@@ -181,6 +183,8 @@ Server shouldn't have a saying on how the client will sort the alarms.
 Alarm event gaps can happen as there's no guarantee on order for server messages or if the server send messages while the client suffers a disconnection.
 
 The way that we will detect a gap is due to the server providing a sequential alarm event number (`seq_number`) and compare it against a local value (`last_seq_number`). We will trigger gap detection check in every alarm message we receive.
+
+![Diagram of an optimist, no retrials, gap detection and recovery](diagrams/optimistic-gap-detection-recovery.png)
 
 If we detect that there's a positive gap (`seq_number` > `last_seq_number` + 1), we will do the following:
 
