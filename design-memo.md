@@ -105,7 +105,7 @@ In the "Agent-Private" room, client should send the following message type to re
 ```ts
 {
   "type": "request_alarms",
-  "seq_numbers": number[]
+  "seq_numbers": number[],
 }
 ```
 
@@ -136,8 +136,8 @@ The alarm state per stack should contain the following:
 
 
   // handling alarm event gaps
-  last_seq_number: number
-  pending_seq_numbers: number[] // this is used if gaps couldn't be filled in the first attempt
+  last_seq_number: number,
+  pending_seq_numbers: number[], // this is used if gaps couldn't be filled in the first attempt
 }
 
 ```
@@ -146,7 +146,7 @@ A higher level state in the app should contain the current active stack:
 
 ```ts
 {
-  activeStack: "emergency" | "non_emergency" | "history";
+  activeStack: "emergency" | "non_emergency" | "history",
 }
 ```
 
