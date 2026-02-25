@@ -205,7 +205,7 @@ Agents should be notified at all times when a channel (alarm stack) connection h
 
 Server should be allowed to remove the "assigned" alarm status for a client that has beeen disconnected for too long. Client should be notified of the change when reconnects.
 
-As we are following an optimist UI approach, we should reflect to the agent that optimistic state until we receive a response from the HTTP method.
+As we are following an optimist UI approach, we should reflect to the agent that optimistic state until we receive a response from the HTTP method, updating state and emiting alarm events in both moments. For agents closing an alarm, the pattern should be slightly different as we can't recover from a closed alarm: we should keep a fallback alarm state in the agent and apply it if the HTTP response was not successfull.
 
 ### Expensive Actions
 
@@ -215,7 +215,7 @@ To mitigate an expensive re-sort alarm action, we will use binary-search insert 
 
 For list rendering, if the framework doesn't allow it, we can batch states and flush them at fixed time interval through react APIs (useTransition). Also, we can use UX techniques to handle long list of items and render a minimum amount: pagination, split list sections (hot list and full list).
 
-For state synchronization through HTTP methods, we will follow an optimistic approach: we will update the alarm as if the HTTP response was successful and, if needed, amend it after we received the response with an UI update and broadcast an update event. For agents closing an alarm, the pattern should be slightly different as we can't recover from a closed alarm: we should keep a fallback alarm state in the agent and apply it if the HTTP response was not successfull.
+For state synchronization through HTTP methods, we will follow an optimistic approach: we will update the alarm as if the HTTP response was successful and, if needed, amend it after we received the response with an UI update and broadcast an update event. 
 
 ## Observability
 
